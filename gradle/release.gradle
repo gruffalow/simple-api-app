@@ -1,0 +1,5 @@
+task release
+
+release.dependsOn reckonTagCreate
+reckonTagCreate.dependsOn build
+
