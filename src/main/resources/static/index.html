@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple API App</title>
+    <script src="htmx.js"></script>
+    <script src="ext/json-enc.js"></script>
+</head>
+<body>
+    <div hx-get="/users" hx-trigger="mouseenter">
+        [Here Mouse, Mouse!]
+    </div>
+
+    <input type="text" name="q"
+           hx-post="/echo"
+           hx-trigger="keyup changed delay:500ms"
+           hx-target="#results"
+           hx-ext="json-enc"
+           placeholder="Waiting"/>
+    <div id="results"></div>
+    <div>
+        <form hx-ext="json-enc" hx-post="/users" hx-target="#results2">
+            <div>
+                <label>Full Name</label>
+                <input type="text" name="name" value="Joe">
+            </div>
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" name="email" value="joe@blow.com">
+            </div>
+            <button class="btn">Submit</button>
+        </form>
+        <div id="results2"></div>
+    </div>
+</body>
+</html>

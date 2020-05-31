@@ -1,6 +1,7 @@
 package net.mengells.simpleApiApp;
 
 import io.javalin.Javalin;
+import io.javalin.http.Context;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.javalin.plugin.openapi.ui.ReDocOptions;
@@ -14,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Javalin.create(config -> {
             config.registerPlugin(getConfiguredOpenApiPlugin());
+            config.addStaticFiles("/static");
             config.defaultContentType = "application/json";
         }).routes(() -> {
             path("users", () -> {
@@ -23,6 +25,13 @@ public class Main {
                     get(Controller::getOne);
                     patch(Controller::update);
                     delete(Controller::delete);
+                });
+            });
+            path("echo", () -> {
+                post((Context ctx) -> {
+                    System.out.println("content Type : "+ctx.contentType());
+                    System.out.println("body : "+ctx.body());
+                    ctx.html(ctx.body());
                 });
             });
         }).start(7000);
